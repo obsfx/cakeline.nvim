@@ -1,6 +1,6 @@
 local M = {}
 local hi_table = {}
-local hi_namespace = 'Deadline'
+local hi_namespace = 'Cakeline'
 local hi_inactive_prefix = 'Inactive'
 
 function M.build_section(hl, exp, native)
