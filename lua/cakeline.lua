@@ -37,7 +37,7 @@ function M.update()
 end
 
 api.nvim_exec([[
-  augroup deadline
+  augroup cakeline
     autocmd!
     autocmd WinEnter,BufEnter,BufDelete,SessionLoadPost,FileChangedShellPost * lua require("cakeline").update()
   augroup end
