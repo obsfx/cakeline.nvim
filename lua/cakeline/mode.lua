@@ -51,15 +51,15 @@ function M.mode()
   local mode_key = fn.mode()
   local mode_color = mode_color_map[mode_key]
   if inactive then mode_color = mode_color_map['inactive'] end
-  cmd(require('deadline.hi').build_hi('Mode', mode_color.bg, mode_color.fg, mode_color.gui, inactive))
+  cmd(require('cakeline.hi').build_hi('Mode', mode_color.bg, mode_color.fg, mode_color.gui, inactive))
   return string.upper(mode_map[mode_key])
 end
 
 function M.show(inactive)
   if inactive then return '%{""}' end
-  local hi = require('deadline.hi').build_name('Mode', inactive)
-  local exp = [[luaeval('require("deadline.mode").mode()')]]
-  return require('deadline.hi').build_section(hi, exp)
+  local hi = require('cakeline.hi').build_name('Mode', inactive)
+  local exp = [[luaeval('require("cakeline.mode").mode()')]]
+  return require('cakeline.hi').build_section(hi, exp)
 end
 
 return M
