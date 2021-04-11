@@ -1,4 +1,3 @@
--- YEAH, DEAD FUCKING LINE
 local M = {}
 local wo = vim.wo
 local cmd = vim.cmd
@@ -8,14 +7,14 @@ local fn = vim.fn
 function M.section(name, inactive, active_color, inactive_color, exp, native)
   local color = active_color
   if inactive then color = inactive_color end
-  cmd(require('deadline.hi').build_hi(name, color.bg, color.fg, color.gui, inactive))
-  local hi = require('deadline.hi').build_name(name, inactive)
-  return require('deadline.hi').build_section(hi, exp, native)
+  cmd(require('cakeline.hi').build_hi(name, color.bg, color.fg, color.gui, inactive))
+  local hi = require('cakeline.hi').build_name(name, inactive)
+  return require('cakeline.hi').build_section(hi, exp, native)
 end
 
 function M.build(inactive)
   local sl = {
-    require('deadline.mode').show(inactive),
+    require('cakeline.mode').show(inactive),
     " ",
     M.section(
       "Filename",
@@ -40,7 +39,7 @@ end
 api.nvim_exec([[
   augroup deadline
     autocmd!
-    autocmd WinEnter,BufEnter,BufDelete,SessionLoadPost,FileChangedShellPost * lua require("deadline").update()
+    autocmd WinEnter,BufEnter,BufDelete,SessionLoadPost,FileChangedShellPost * lua require("cakeline").update()
   augroup end
 ]], false)
 
