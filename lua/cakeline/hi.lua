@@ -3,15 +3,27 @@ local hi_table = {}
 local hi_namespace = 'Cakeline'
 local hi_inactive_prefix = 'Inactive'
 
-function M.build_section(hl, exp, native)
+function M.build_section(hl, exp, native, lp, rp)
   local str = ''
+  local leftpadding = ''
+  local rightpadding = ''
+
   if hl ~= nil then
     str = '%#' .. hl .. '#'
   end
+
+  if lp and type(lp) == 'number' and lp > 0 then
+    leftpadding = '%-' .. lp .. '{" "}'
+  end
+
+  if rp and type(rp) == 'number' and rp > 0 then
+    rightpadding = '%-' .. rp .. '{" "}'
+  end
+
   if native then
-    str = str .. '%' .. exp .. '%*'
+    str = str .. leftpadding .. '%' .. exp .. rightpadding .. '%*'
   else
-    str = str .. '%{' .. exp .. '}%*'
+    str = str .. leftpadding .. '%{' .. exp .. '}' .. rightpadding ..'%*'
   end
   return str
 end

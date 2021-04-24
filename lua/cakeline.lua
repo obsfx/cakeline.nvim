@@ -4,26 +4,20 @@ local cmd = vim.cmd
 local api = vim.api
 local fn = vim.fn
 
-function M.section(name, inactive, active_color, inactive_color, exp, native)
+function M.section(name, inactive, active_color, inactive_color, exp, native, lp, rp)
   local color = active_color
   if inactive then color = inactive_color end
   cmd(require('cakeline.hi').build_hi(name, color.bg, color.fg, color.gui, inactive))
   local hi = require('cakeline.hi').build_name(name, inactive)
-  return require('cakeline.hi').build_section(hi, exp, native)
+  return require('cakeline.hi').build_section(hi, exp, native, lp, rp)
 end
 
 function M.build(inactive)
+  local section = require('cakeline.sections.table');
   local sl = {
-    require('cakeline.mode').show(inactive),
-    " ",
-    M.section(
-      "Filename",
-      inactive,
-      {bg = '#222222', fg = '#777777', gui = 'NONE'},
-      {bg = '#1c1b1a', fg = '#444444', gui = 'NONE'},
-      "f",
-      true
-    )
+    --    [[%-1{' '}]],
+    section.mode.show(inactive),
+    section.filename.show(inactive),
   }
   return table.concat(sl)
 end
@@ -34,6 +28,8 @@ function M.update()
   for i = 1, totalwin do
     vim.fn.setwinvar(i, '&statusline', M.build(i ~= curwin))
   end
+
+  print(M.build(false))
 end
 
 api.nvim_exec([[
