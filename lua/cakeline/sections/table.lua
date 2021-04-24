@@ -1,4 +1,14 @@
 local table = {
+  switchright = {
+    show = function(inactive)
+      return "%= "
+    end
+  },
+  space = {
+    show = function(inactive)
+      return " "
+    end
+  },
   mode = {
     config = {
       leftpadding = 1,
