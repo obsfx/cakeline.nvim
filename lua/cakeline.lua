@@ -1,5 +1,5 @@
 local M = {
-  sl = {}
+  tokens = {}
 }
 local wo = vim.wo
 local cmd = vim.cmd
@@ -7,9 +7,9 @@ local api = vim.api
 local fn = vim.fn
 
 function M.setline(line)
-  local startidx = nil
   local tokens = {}
-  local SPACE = "SPACE"
+  local startidx = nil
+  local sections = require('cakeline.sections.table');
 
   for i = 1, #line do
     local c = line:sub(i, i)
@@ -18,25 +18,17 @@ function M.setline(line)
       i = i + 1
       startidx = i
     elseif c == '}' and startidx ~= nil then
-      tokens[#tokens+1] = line:sub(startidx, i - 1)
+      local sectionkey = line:sub(startidx, i - 1);
+      tokens[#tokens+1] = sections[sectionkey].show
       startidx = nil
-    elseif c == " " and startidx == nil then
-      tokens[#tokens+1] = SPACE
+    elseif startidx == nil then
+      tokens[#tokens+1] = function(_)
+        return c
+      end
     end
   end
 
-  local sl = {}
-  local section = require('cakeline.sections.table');
-
-  for i = 1, #tokens do
-    if tokens[i] ~= SPACE then
-      sl[#sl+1] = section[tokens[i]].show
-    else
-      sl[#sl+1] = section.space.show
-    end
-  end
-
-  M.sl = sl
+  M.tokens = tokens
 end
 
 function M.register(key, config, exp, native)
@@ -50,7 +42,7 @@ function M.register(key, config, exp, native)
         config.activecolors,
         config.inactivecolors,
         exp,
-        false,
+        native,
         config.leftpadding,
         config.rightpadding
       )
@@ -66,11 +58,15 @@ function M.section(name, inactive, active_color, inactive_color, exp, native, lp
 end
 
 function M.build(inactive)
-  local section = require('cakeline.sections.table');
+  local _slconfig = require('cakeline.sections.table')._sl.config;
+  cmd(require('cakeline.hi').build_hi_wo_ns("StatusLine", _slconfig.activecolors.bg, _slconfig.activecolors.fg, _slconfig.activecolors.gui))
+  cmd(require('cakeline.hi').build_hi_wo_ns("StatusLineNC", _slconfig.inactivecolors.bg, _slconfig.inactivecolors.fg, _slconfig.inactivecolors.gui))
+
   local sl = {}
-  for i = 1, #M.sl do
-    sl[#sl+1] = M.sl[i](inactive)
+  for i = 1, #M.tokens do
+    sl[#sl+1] = M.tokens[i](inactive)
   end
+  sl[#sl+1] = '%<'
   return table.concat(sl)
 end
 
@@ -80,8 +76,6 @@ function M.update()
   for i = 1, totalwin do
     fn.setwinvar(i, '&statusline', M.build(i ~= curwin))
   end
-
-  --print(M.build(false))
 end
 
 api.nvim_exec([[

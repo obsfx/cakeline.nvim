@@ -1,12 +1,13 @@
 local table = {
+  _sl = {
+    config = {
+      activecolors = {bg = '#222222', fg = '#777777', gui = 'NONE'},
+      inactivecolors = {bg = '#1c1b1a', fg = '#444444', gui = 'NONE'}
+    }
+  },
   switchright = {
     show = function(inactive)
       return "%= "
-    end
-  },
-  space = {
-    show = function(inactive)
-      return " "
     end
   },
   mode = {
@@ -22,7 +23,7 @@ local table = {
         ['s'] = {bg = '#CF2549', fg = '#eeeeee', gui = 'BOLD'},
         ['S'] = {bg = '#CF2549', fg = '#eeeeee', gui = 'BOLD'},
         [''] = {bg = '#CF2549', fg = '#eeeeee', gui = 'BOLD'},
-        ['i'] = {bg = '#5941BD', fg = '#eeeeee', gui = 'BOLD'},
+        ['i'] = {bg = '#1CACF4', fg = '#282828', gui = 'BOLD'},
         ['R'] = {bg = '#CF2549', fg = '#eeeeee', gui = 'BOLD'},
         ['Rv'] = {bg = '#E1ECF3', fg = '#282828', gui = 'BOLD'},
         ['c'] = {bg = '#CF2549', fg = '#eeeeee', gui = 'BOLD'},

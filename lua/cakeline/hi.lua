@@ -33,6 +33,10 @@ function M.build_hi(name, guibg, guifg, gui, inactive)
   return 'hi ' .. hi_name .. ' guibg=' .. guibg .. ' guifg=' .. guifg .. ' gui=' .. gui
 end
 
+function M.build_hi_wo_ns(name, guibg, guifg, gui)
+  return 'hi ' .. name .. ' guibg=' .. guibg .. ' guifg=' .. guifg .. ' gui=' .. gui
+end
+
 function M.build_name(name, inactive)
   local hi_name = hi_namespace .. name
   if inactive then
